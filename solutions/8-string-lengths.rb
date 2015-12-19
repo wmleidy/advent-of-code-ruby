@@ -1,31 +1,31 @@
 def count_string_lengths_io
-	count = 0
-	IO.foreach("../input/input8-strings.txt") do |line|
-		core_string = line[1..-3]
-		evaluated_string = eval "\"#{core_string}\""
-		count += core_string.length - evaluated_string.length
-		count += 2 # for beginning and ending quotes
-	end
-	count
+  count = 0
+  IO.foreach("../input/input8-strings.txt") do |line|
+    core_string = line[1..-3]
+    evaluated_string = eval "\"#{core_string}\""
+    count += core_string.length - evaluated_string.length
+    count += 2 # for beginning and ending quotes
+  end
+  count
 end
 
 def count_string_lengths_io2
-	count = 0
-	IO.foreach("../input/input8-strings.txt") do |line|
-		count += 2 # for beginning and ending quotes
-		count += escaped_characters(line.chomp)
-	end
-	count
+  count = 0
+  IO.foreach("../input/input8-strings.txt") do |line|
+    count += 2 # for beginning and ending quotes
+    count += escaped_characters(line.chomp)
+  end
+  count
 end
 
 def escaped_characters(str)
-	tally = 0
-	str.chars.each do |char|
-		if char == '\\' || char == '"'
-			tally += 1
-		end
-	end
-	tally
+  tally = 0
+  str.chars.each do |char|
+    if char == '\\' || char == '"'
+      tally += 1
+    end
+  end
+  tally
 end
 
 p count_string_lengths_io
