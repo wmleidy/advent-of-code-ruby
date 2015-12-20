@@ -4,52 +4,18 @@
 # attempts to optimize with a repeated shuffle or sorting the substitutions
 # array by descending length of second element. As it has no mechanism for
 # optimization within it, I was quite surprised when it produced the answer.
+# (For explanation as to why: see below.)
 
-subs = [
-["Al","ThF"],
-["Al","ThRnFAr"],
-["B","BCa"],
-["B","TiB"],
-["B","TiRnFAr"],
-["Ca","CaCa"],
-["Ca","PB"],
-["Ca","PRnFAr"],
-["Ca","SiRnFYFAr"],
-["Ca","SiRnMgAr"],
-["Ca","SiTh"],
-["F","CaF"],
-["F","PMg"],
-["F","SiAl"],
-["H","CRnAlAr"],
-["H","CRnFYFYFAr"],
-["H","CRnFYMgAr"],
-["H","CRnMgYFAr"],
-["H","HCa"],
-["H","NRnFYFAr"],
-["H","NRnMgAr"],
-["H","NTh"],
-["H","OB"],
-["H","ORnFAr"],
-["Mg","BF"],
-["Mg","TiMg"],
-["N","CRnFAr"],
-["N","HSi"],
-["O","CRnFYFAr"],
-["O","CRnMgAr"],
-["O","HP"],
-["O","NRnFAr"],
-["O","OTi"],
-["P","CaP"],
-["P","PTi"],
-["P","SiRnFAr"],
-["Si","CaSi"],
-["Th","ThCa"],
-["Ti","BP"],
-["Ti","TiTi"],
-["e","HF"],
-["e","NAl"],
-["e","OMg"]
-]
+def substitutions_io
+  subs = []
+
+  IO.foreach("../input/input19-medicine.txt") do |line|
+    data = line.chomp.split(" => ")
+    subs << data
+  end
+
+  subs
+end
 
 # Part One
 def find_possible_molecules(molecule, substitutions)
@@ -71,7 +37,7 @@ end
 
 input = "CRnCaCaCaSiRnBPTiMgArSiRnSiRnMgArSiRnCaFArTiTiBSiThFYCaFArCaCaSiThCaPBSiThSiThCaCaPTiRnPBSiThRnFArArCaCaSiThCaSiThSiRnMgArCaPTiBPRnFArSiThCaSiRnFArBCaSiRnCaPRnFArPMgYCaFArCaPTiTiTiBPBSiThCaPTiBPBSiRnFArBPBSiRnCaFArBPRnSiRnFArRnSiRnBFArCaFArCaCaCaSiThSiThCaCaPBPTiTiRnFArCaPTiBSiAlArPBCaCaCaCaCaSiRnMgArCaSiThFArThCaSiThCaSiRnCaFYCaSiRnFYFArFArCaSiRnFYFArCaSiRnBPMgArSiThPRnFArCaSiRnFArTiRnSiRnFYFArCaSiRnBFArCaSiRnTiMgArSiThCaSiThCaFArPRnFArSiRnFArTiTiTiTiBCaCaSiRnCaCaFYFArSiThCaPTiBPTiBCaSiThSiRnMgArCaF"
 
-p find_possible_molecules(input, subs)
+p find_possible_molecules(input, substitutions_io)
 
 # Part Two
 def distill_molecule(molecule, substitutions)
@@ -85,18 +51,37 @@ def distill_molecule(molecule, substitutions)
         if molecule[i...i+target_length] == sub
           molecule = molecule[0...i] + substitution[0] + molecule[i+target_length..-1]
           steps += 1
+          # p [molecule, steps] # to check progress
         end
         i += 1
       end
-      # p [molecule, count]
     end
   end
   [molecule, steps]
 end
 
-# Very surprised this worked as there's no optimization built in (see preamble)
-p distill_molecule(input, subs)
+p distill_molecule(input, substitutions_io)
+# Reading the explanation below makes me think that my Part Two answer would be more
+# robust if I worked backwards through the string and/or checked the longest subs first
 
-### Other Approaches, i.e. Approaches that Actually Optimize  ###
+### Other Approaches ###
 
-# ...coming after subreddit populates...
+# Reddit users Andrew "Speed Demon" Skalski and CtiTheKing figured the essence out.
+
+# Here is CtiTheKing's concise explanation:
+
+# Actually, on second analysis, technically the second half didn't require any code. Here's why:
+# All of the rules are of one of the following forms:
+# α => βγ
+# α => βRnγAr
+# α => βRnγYδAr
+# α => βRnγYδYεAr
+# As Rn, Ar, and Y are only on the left side of the equation, one merely only needs to compute
+# NumSymbols - #Rn - #Ar - 2 * #Y - 1
+
+# Subtract of #Rn and #Ar because those are just extras. Subtract two times #Y because we get
+# rid of the Ys and the extra elements following them. Subtract one because we start with "e".
+
+# In other words, there is only one pathway that will work and the request for
+# "fewest number of steps" was a red herring meant to throw us off the scent and
+# lead us down the pathways of greedy algorithms, BFS, DFS, CYK, etc.
