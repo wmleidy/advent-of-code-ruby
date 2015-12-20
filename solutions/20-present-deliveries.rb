@@ -39,7 +39,15 @@ p find_house_two(input)
 
 ### Other Ideas I Had While Waiting for Divisor-based Algorithm to Finish ###
 
-# IDEA A) 
+# IDEA A) - optimizing the divisor-based search
+
+  # 1) check to see if valid divisor up until house_number/2 (was actually in my 1st implementation)
+  # 2) use math to choose a reasonable starting house (e.g. 500_000 instead of 1)
+  # 3) instead of stepping through house numbers by ones, step through them by 20, figuring
+  #    that 2 * 2 * 5 will be three of the prime factors involved in the solution
+
+# IDEA B) - leveraging prime factors to reduce modulus comparisons
+
   # 1) generate list of prime numbers up to ~1_000_000
   # 2) quickly find all prime factors of number n
   # 3) find subsets of those prime factors
@@ -49,7 +57,8 @@ p find_house_two(input)
   # 7) if >= than target number, return
   #    else go forward to next number n
 
-# IDEA B)
+# IDEA C) - working with sets of prime numbers
+
   # 1) generate list of prime numbers up to ~17
   # 2) make arrays of length 8-12 to be populated with prime numbers (smaller ones first)
   # 3) use subset method in IDEA A to calculate the number of presents dropped off
@@ -57,3 +66,7 @@ p find_house_two(input)
   #    then add result to a list of acceptable answers
   # 5) after recursively checking all arrays of prime numbers of length 8-12, find the
   #    minimum number in the list of acceptable answers
+
+# These three ideas were all rendered moot after I solved Part One, because the constraints
+# given in Part Two naturally led me to come up with a hash-based approach, which, as it turned
+# out is the most efficient solution to Part One in terms of time complexity.
