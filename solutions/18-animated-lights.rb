@@ -63,5 +63,5 @@ end
 p do_100_times(lights_io)
 
 ### Other Approaches ###
-
-# ...to be added later...
+# 1) By leaving a permanently empty ring of cells around the main grid, there are fewer checks
+#    to perform (although the above code is still very quick, runs in under in a second)
