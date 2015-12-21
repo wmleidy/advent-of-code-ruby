@@ -95,9 +95,10 @@ rings = [
   Ring.new("Defense +3", 80, 0, 3)
 ]
 
-# Part One
-def find_cheapest_win(weapons, armor, rings)
+# Part One and Two
+def find_cheapest_win_and_most_expensive_loss(weapons, armor, rings)
   winning_sets = []
+  losing_sets  = []
 
   weapons.each do |w|
     armor.each do |a|
@@ -107,6 +108,8 @@ def find_cheapest_win(weapons, armor, rings)
         villain = Character.new("Ignorance", 103, { damage: 9, defense: 2})
         if hero.duel_to_the_death!(villain) == hero
           winning_sets << arms
+        else
+          losing_sets << arms
         end
       end
     end
@@ -114,33 +117,13 @@ def find_cheapest_win(weapons, armor, rings)
 
   cheapest = winning_sets.min_by { |set| set.inject(0) { |total, item| total += item.cost } }
   cheapest_cost = cheapest.inject(0) { |total, item| total += item.cost }
-  [cheapest_cost, cheapest]
-end
-
-# Part Two
-def find_most_expensive_loss(weapons, armor, rings)
-  losing_sets = []
-
-  weapons.each do |w|
-    armor.each do |a|
-      rings.combination(2).to_a.each do |r|
-        arms = [w, a, r].flatten
-        hero = Character.new("Knowledge", 100, { equipment: arms })
-        villain = Character.new("Ignorance", 103, { damage: 9, defense: 2})
-        if hero.duel_to_the_death!(villain) == villain
-          losing_sets << arms
-        end
-      end
-    end
-  end
 
   costliest = losing_sets.max_by { |set| set.inject(0) { |total, item| total += item.cost } }
   costliest_cost = costliest.inject(0) { |total, item| total += item.cost }
-  [costliest_cost, costliest]
+  puts "Cheapest win: #{cheapest_cost}, Costliest loss: #{costliest_cost}"
 end
 
-p find_cheapest_win(weapons, armor, rings)
-p find_most_expensive_loss(weapons, armor, rings)
+find_cheapest_win_and_most_expensive_loss(weapons, armor, rings)
 
 ### Other Approaches ###
 
