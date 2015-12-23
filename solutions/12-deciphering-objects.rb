@@ -1,8 +1,9 @@
 # Historical note of little to no interest to anyone but me:
-# This problem marks the first time I competed for the leaderboard (i.e. started
-# exactly at 11 pm CT and rushed to solve it, elegance of the code be damned).
-# Throughout the course of the AOC challenges, I made a concerted effort to
-# get on the leaderboard five times, succeeding three of those times.
+# This problem marks the first time I competed for the leaderboard (i.e. had all
+# previous problems solved, started the current problem at exactly at 11 pm CT
+# and rushed to solve it, elegance of the code be damned). Throughout the course
+# of the AOC challenges, I made a concerted effort to get on the leaderboard six
+# times, succeeding four of those times.
 
 # Ended up at #65 with the recursive solution below, which I think is some of
 # the highest quality code I've written for any of the AOC problems.
