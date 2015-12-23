@@ -127,4 +127,7 @@ find_cheapest_win_and_most_expensive_loss(weapons, armor, rings)
 
 ### Other Approaches ###
 
-# ...coming soon... 
+# 1) Obviously, there is no need to simulate the battle turn-by-turn--all that's needed
+#    is a comparison of the number of turns it takes the hero and boss to win, but
+#    simulating battle is more reusable in case of future modifications like randomized
+#    damage, etc.
