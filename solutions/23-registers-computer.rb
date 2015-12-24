@@ -1,7 +1,5 @@
 # Historical note of little to no interest to anyone but me:
-# Final time I attempt to make the leaderboard: finished #93 and spent a fair
-# bit of time debugging the "jio" is actually "jump if ONE" and not "jump if odd"
-# as one might expect it to be.
+# Made the leaderboard...barely...in my final attempt to do so
 
 def registers_io
   instructions = []
@@ -13,9 +11,7 @@ def registers_io
     
     if data[1][-1] == ","
       target = data[1][0]
-    elsif data[1][0] == "+"
-      target = data[1][1..-1].to_i
-    elsif data[1][0] == "-"
+    elsif data[1][0] == "+" || data[1][0] == "-"
       target = data[1].to_i
     else
       target = data[1]
@@ -31,42 +27,33 @@ def registers_io
   instructions
 end
 
-def compute(regs)
-  # @a = 0 # Part One
-  @a = 1 # Part Two
-  @b = 0
+def compute(instr)
+  # regs = { "a" => 0, "b" => 0} # Part One
+  regs = { "a" => 1, "b" => 0} # Part Two
   i = 0
 
   while i >= 0 && i < 49
-    command = regs[i][0]
-    p [i, @a, @b]
+    p regs
+    command = instr[i][0]
     case command
     when "hlf"
-      instance_variable_set("@#{regs[i][1]}", instance_variable_get("@#{regs[i][1]}") / 2)
+      regs[instr[i][1]] /= 2
       i += 1
     when "tpl"
-      instance_variable_set("@#{regs[i][1]}", instance_variable_get("@#{regs[i][1]}") * 3)
+      regs[instr[i][1]] *= 3
       i += 1
     when "inc"
-      instance_variable_set("@#{regs[i][1]}", instance_variable_get("@#{regs[i][1]}") + 1)
+      regs[instr[i][1]] += 1
       i += 1
     when "jmp"
-      i += regs[i][1]
-    when "jio"
-      if instance_variable_get("@#{regs[i][1]}") == 1
-        i += regs[i][2]
-      else
-        i += 1
-      end
+      i += instr[i][1]
     when "jie"
-      if instance_variable_get("@#{regs[i][1]}") % 2 == 0
-        i += regs[i][2]
-      else
-        i += 1
-      end
+      regs[instr[i][1]].even? ? i += instr[i][2] : i += 1
+    when "jio" # jump if ONE (not jump if odd)
+      regs[instr[i][1]] == 1  ? i += instr[i][2] : i += 1
     end
   end
-  @b
+  regs["b"]
 end
 
 # Toggle the first two lines of #compute for Part One and Part Two
@@ -74,5 +61,7 @@ p compute(registers_io)
 
 ### Other Approaches ###
 
-# coming soon...but obviously a little Regex-based refactoring of the IO would be nice...
-# ...also, there has to be a way to do this without using instance variables...
+# 1) My original approach used instance variables because I thought it would be
+#    the easiest way (cf. Day 7); but this wasn't true at all...as can be seen
+#    in my refactored solution, which uses a registers hash
+# 2) Input could be parsed using Regex, but meh...
