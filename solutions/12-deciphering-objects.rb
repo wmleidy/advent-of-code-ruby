@@ -2,7 +2,7 @@
 # This problem marks the first time I competed for the leaderboard (i.e. had all
 # previous problems solved, started the current problem at exactly at 11 pm CT
 # and rushed to solve it, elegance of the code be damned). Throughout the course
-# of the AOC challenges, I made a concerted effort to get on the leaderboard six
+# of the AOC challenges, I made a concerted effort to get on the leaderboard seven
 # times, succeeding four of those times.
 
 # Ended up at #65 with the recursive solution below, which I think is some of
