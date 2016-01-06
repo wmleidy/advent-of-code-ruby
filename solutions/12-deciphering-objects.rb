@@ -38,7 +38,7 @@ def parse(data)
 
   case data
   when Hash
-    data.each { |k, v| sum += parse(v) }
+    data.each { |k, v| sum += parse(v) } # unless data.has_value?("red")
   when Array
     data.each { |el| sum += parse(el) }
   when Integer
