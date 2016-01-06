@@ -32,7 +32,27 @@ def parse(data, count = 0)
   count
 end 
 
+# Version with case statement (a refactor for my blog)
+def parse(data)
+  sum = 0
+
+  case data
+  when Hash
+    data.each do |key, value|
+      sum += parse(value)
+    end
+  when Array
+    data.each do |element|
+      sum += parse(element)
+    end
+  when Integer
+    sum += data
+  end
+  sum
+end
+
 p parse(convert)
+
 
 ### Other Approaches ###
 # 1) Using Regex for Part One gets the answer super quick (but doesn't help
