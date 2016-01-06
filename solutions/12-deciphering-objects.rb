@@ -38,13 +38,9 @@ def parse(data)
 
   case data
   when Hash
-    data.each do |key, value|
-      sum += parse(value)
-    end
+    data.each { |k, v| sum += parse(v) }
   when Array
-    data.each do |element|
-      sum += parse(element)
-    end
+    data.each { |el| sum += parse(el) }
   when Integer
     sum += data
   end
