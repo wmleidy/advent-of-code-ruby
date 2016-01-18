@@ -41,7 +41,8 @@ class Character
     combatants = [hero, enemy]
     combatants.cycle do |character|
       character == hero ? target = enemy : target = hero
-      return character if character.attack(target) <= 0
+      character.attack(target)
+      return character if target.hit_points <= 0
     end
   end
 
